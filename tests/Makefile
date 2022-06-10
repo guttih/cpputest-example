@@ -1,5 +1,5 @@
 # we don’t want to use relative paths, so we set these variables
-PROJECT_DIR=/home/gudjon/repos/personal/myapp
+PROJECT_DIR=/home/gudjon/repos/personal/cpputest-example
 SRC_DIR=$(PROJECT_DIR)/src
 TEST_DIR=$(PROJECT_DIR)/tests
 # specify where the source code and includes are located
