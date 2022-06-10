@@ -35,3 +35,5 @@
 tests/coverage
 .vscode/*
 tests/objs
+tests/app
+app
