@@ -1,5 +1,5 @@
 # we don’t want to use relative paths, so we set these variables
-PROJECT_DIR=/home/gudjon/repos/personal/cpputest-example
+PROJECT_DIR=~/Downloads/test/cpputest-example
 SRC_DIR=$(PROJECT_DIR)/src
 TEST_DIR=$(PROJECT_DIR)/tests
 CODE_DIR=$(SRC_DIR)/code
@@ -15,11 +15,8 @@ TEST_SRC_DIRS = $(TEST_DIR)
 TEST_TARGET=app
 CPPUTEST_USE_GCOV=Y
 
-# where the cpputest library is located
-# CPPUTEST_HOME=/home/gudjon/repos/cpputest/cpputest_build
 
 OUT=app
-# TEST_DIR=test
 
 test:
 	make -C $(TEST_DIR)
