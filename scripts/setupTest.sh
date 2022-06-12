@@ -198,6 +198,19 @@ EOM
     echo "$VAR" >"$FILE"
 }
 
+makeFileTestsGitIgnore() {
+    declare FILE="$1"/.gitignore
+    echo "Creating $FILE"
+    CURRENT=$(date +"%Y-%m-%d %H:%M:%S")
+    read -r -d '' VAR <<EOM
+# File .gitignore, created $CURRENT.
+coverage
+objs
+app
+EOM
+    echo "$VAR" >"$FILE"
+}
+
 #Function: makeFileTestsTest()
 #
 #Brief: Creates a test.cpp test file
@@ -260,6 +273,7 @@ makeFileMakefile() {
     echo "Creating $FILE"
     read -r -d '' VAR <<EOM
 #  File Makefile, created $CURRENT.
+PROJECT_DIR=$1
 SRC_DIR=$2
 TEST_DIR=$3
 CODE_DIR=$4
@@ -268,6 +282,7 @@ TEST_TARGET=$5
 COVERAGE_DIR=\$(TEST_DIR)/coverage
 CPPUTEST_USE_GCOV=Y
 
+\$(info    PROJECT_DIR:\$(PROJECT_DIR))
 \$(info    SRC_DIR:\$(SRC_DIR))
 \$(info    TEST_DIR:\$(TEST_DIR))
 \$(info    CODE_DIR:\$(CODE_DIR))
@@ -292,10 +307,13 @@ main: testCodeExample.o
 
 all: test main
 
+testcov: test coverage
+	xdg-open \$(COVERAGE_DIR)/index.html
+
 clean_coverage:
 	rm -rf \$(COVERAGE_DIR)
 coverage: clean_coverage
-	mkdir \$(COVERAGE_DIR); lcov --capture --directory \$(CODE_DIR) --output-file \$(COVERAGE_DIR)/coverage.info; genhtml \$(COVERAGE_DIR)/coverage.info --output-directory \$(COVERAGE_DIR) && echo -ne "To open report give command\n  xdg-open \$(COVERAGE_DIR)/index.html\n"
+	mkdir \$(COVERAGE_DIR); lcov --capture --directory . --output-file \$(COVERAGE_DIR)/coverage.info; genhtml \$(COVERAGE_DIR)/coverage.info --output-directory \$(COVERAGE_DIR) && echo -ne "To open report give command\n  xdg-open \$(COVERAGE_DIR)/index.html\n"
 
 clean: test_clean
 	rm \$(SRC_DIR)/*.o \$(CODE_DIR)/*.o \$(OUT)
@@ -341,7 +359,7 @@ TEST_TARGET=$7
 
 # where the cpputest library is located
 CPPUTEST_HOME=/usr/local
-
+CPPUTEST_USE_GCOV=Y
 # run MakefileWorker.mk with the variables defined here
 include MakefileWorker.mk
 EOM
@@ -404,13 +422,15 @@ else
     fi
 fi
 APP_EXECUTABLE="$(basename $APP_DIR)"
-TEST_EXECUTABLE="testApp"
+TEST_EXECUTABLE="app"
 echo "APP_EXECUTABLE: $APP_EXECUTABLE"
+echo "TEST_EXECUTABLE: $TEST_EXECUTABLE"
 # APP_EXECUTABLE="example"
 mkdir "$TEST_DIR"
 wget https://raw.githubusercontent.com/cpputest/cpputest/master/build/MakefileWorker.mk -P "$TEST_DIR"
 makeFileTestsMain "$TEST_DIR"
 makeFileTestsTest "$TEST_DIR"
+makeFileTestsGitIgnore "$TEST_DIR"
 makeFileTestsCodeExample "$CODE_DIR"
 makeFileTestsMakefile "$TEST_DIR" "$DIR" "$CODE_DIR" "$TEST_DIR" "$CODE_DIR" "$CODE_DIR" "$TEST_EXECUTABLE"
 makeFileMakefile "$DIR" "$APP_DIR" "$TEST_DIR" "$CODE_DIR" "$TEST_EXECUTABLE"
