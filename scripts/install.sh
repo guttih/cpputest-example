@@ -32,11 +32,15 @@ downloadIfNotFound(){
 #
 downloadScripts(){
     declare SCRIPTS="scripts"
+    
     downloadIfNotFound "$SCRIPTS" setupTest.sh
     if downloadIfNotFound "$SCRIPTS" install.sh; then
-        rm "$DIR/install.sh"
-        "$SCRIPTS/install.sh"
-        exit
+        if test -f "$DIR/install.sh"; then
+            #running the newest version of install.sh
+            rm "$DIR/install.sh"
+            "$SCRIPTS/install.sh"
+            exit
+        fi
     fi
 }
 
