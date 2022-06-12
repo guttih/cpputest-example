@@ -17,10 +17,12 @@ downloadIfNotFound(){
     declare DIR="$1"
     declare FILE="$2"
     if ! test -f "$DIR/$FILE"; then
-        wget "https://raw.githubusercontent.com/guttih/cpputest-example/main/$DIR/$FILE" -P "$DIR"
+        if wget "https://raw.githubusercontent.com/guttih/cpputest-example/main/$DIR/$FILE" -P "$DIR"; then
+            chmod +x "$DIR/$FILE"
+            return
+        fi
     fi
-    
-    
+    return 1
 }
 
 
@@ -29,9 +31,13 @@ downloadIfNotFound(){
 #Brief: Downloads scripts to sub directory called scripts
 #
 downloadScripts(){
-    declare DIR="scripts"
-    downloadIfNotFound "$DIR" install.sh
-    downloadIfNotFound "$DIR" setupTest.sh
+    declare SCRIPTS="scripts"
+    downloadIfNotFound "$SCRIPTS" setupTest.sh
+    if downloadIfNotFound "$SCRIPTS" install.sh; then
+        rm "$DIR/install.sh"
+        "$SCRIPTS/install.sh"
+        exit
+    fi
 }
 
 
