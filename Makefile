@@ -1,5 +1,5 @@
 # we don’t want to use relative paths, so we set these variables
-PROJECT_DIR=~/Downloads/test/cpputest-example
+PROJECT_DIR=/home/gudjon/repos/personal/cpputest-example
 SRC_DIR=$(PROJECT_DIR)/src
 TEST_DIR=$(PROJECT_DIR)/tests
 CODE_DIR=$(SRC_DIR)/code
@@ -13,11 +13,21 @@ SRC_DIRS=$(SRC_DIR)/code
 TEST_SRC_DIRS = $(TEST_DIR)
 
 TEST_TARGET=app
+OUT=app
 CPPUTEST_USE_GCOV=Y
 
 
-OUT=app
 
+$(info    PROJECT_DIR:$(PROJECT_DIR))
+$(info    SRC_DIR:$(SRC_DIR))
+$(info    TEST_DIR:$(TEST_DIR))
+$(info    CODE_DIR:$(CODE_DIR))
+$(info    COVERAGE_DIR:$(COVERAGE_DIR))
+
+$(info    INCLUDE_DIRS:$(INCLUDE_DIRS))
+$(info    TEST_SRC_DIRS:$(TEST_SRC_DIRS))
+$(info    TEST_TARGET:$(TEST_TARGET))
+$(info    OUT:$(OUT))
 test:
 	make -C $(TEST_DIR)
 

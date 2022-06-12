@@ -45,7 +45,7 @@ In order to be able to build this project you need to have installed [CppUTest] 
     1. Build all
         ```
         cd ~/repos/cpputest-example
-        ./install.sh
+        scripts/install.sh
         make allcov
         ``` 
     2. Browser should open and show you 33.3% code coverage.
