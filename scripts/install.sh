@@ -32,8 +32,10 @@ downloadIfNotFound(){
 #
 downloadScripts(){
     declare SCRIPTS="scripts"
-    
+    # wget -O - https://raw.githubusercontent.com/guttih/cpputest-example/main/scripts/install.sh | bash
     downloadIfNotFound "$SCRIPTS" setupTest.sh
+    downloadIfNotFound "$SCRIPTS" newQtProject.sh
+    
     if downloadIfNotFound "$SCRIPTS" install.sh; then
         if test -f "$DIR/install.sh"; then
             #running the newest version of install.sh
